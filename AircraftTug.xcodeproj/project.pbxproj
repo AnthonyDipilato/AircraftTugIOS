@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4056B9CDCFBF9709EF1E54E9 /* Pods_AircraftTug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90BB6DB4F0966E0ACB1B2770 /* Pods_AircraftTug.framework */; };
+		63615AE51FB40906002A644D /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63615AE41FB408EB002A644D /* CoreBluetooth.framework */; };
 		63B228A11FB2A9070072797E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B228A01FB2A9070072797E /* AppDelegate.swift */; };
 		63B228A31FB2A9070072797E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B228A21FB2A9070072797E /* ViewController.swift */; };
 		63B228A61FB2A9070072797E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B228A41FB2A9070072797E /* Main.storyboard */; };
 		63B228A81FB2A9070072797E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63B228A71FB2A9070072797E /* Assets.xcassets */; };
 		63B228AB1FB2A9070072797E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B228A91FB2A9070072797E /* LaunchScreen.storyboard */; };
 		63B228B61FB2A9070072797E /* AircraftTugTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B228B51FB2A9070072797E /* AircraftTugTests.swift */; };
+		63D20F101FB53EB500EFD193 /* CDJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D20F0E1FB53D8500EFD193 /* CDJoystick.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,7 +28,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		63615AF01FB4140D002A644D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		565556E46DBC33A2A2BDF329 /* Pods-AircraftTug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AircraftTug.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AircraftTug/Pods-AircraftTug.debug.xcconfig"; sourceTree = "<group>"; };
+		63615AE41FB408EB002A644D /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		63B2289D1FB2A9070072797E /* AircraftTug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AircraftTug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63B228A01FB2A9070072797E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63B228A21FB2A9070072797E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +54,9 @@
 		63B228B11FB2A9070072797E /* AircraftTugTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AircraftTugTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63B228B51FB2A9070072797E /* AircraftTugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftTugTests.swift; sourceTree = "<group>"; };
 		63B228B71FB2A9070072797E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63D20F0E1FB53D8500EFD193 /* CDJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CDJoystick.swift; path = Pods/CDJoystick/CDJoystick.swift; sourceTree = "<group>"; };
+		64FFA6763B5A8FF52667AE26 /* Pods-AircraftTug.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AircraftTug.release.xcconfig"; path = "Pods/Target Support Files/Pods-AircraftTug/Pods-AircraftTug.release.xcconfig"; sourceTree = "<group>"; };
+		90BB6DB4F0966E0ACB1B2770 /* Pods_AircraftTug.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AircraftTug.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63615AE51FB40906002A644D /* CoreBluetooth.framework in Frameworks */,
+				4056B9CDCFBF9709EF1E54E9 /* Pods_AircraftTug.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,12 +79,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63615AE31FB408EB002A644D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				63D20F0E1FB53D8500EFD193 /* CDJoystick.swift */,
+				63615AE41FB408EB002A644D /* CoreBluetooth.framework */,
+				90BB6DB4F0966E0ACB1B2770 /* Pods_AircraftTug.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		63B228941FB2A9070072797E = {
 			isa = PBXGroup;
 			children = (
 				63B2289F1FB2A9070072797E /* AircraftTug */,
 				63B228B41FB2A9070072797E /* AircraftTugTests */,
 				63B2289E1FB2A9070072797E /* Products */,
+				63615AE31FB408EB002A644D /* Frameworks */,
+				765F9173217B0173A9F02431 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -96,6 +131,15 @@
 			path = AircraftTugTests;
 			sourceTree = "<group>";
 		};
+		765F9173217B0173A9F02431 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				565556E46DBC33A2A2BDF329 /* Pods-AircraftTug.debug.xcconfig */,
+				64FFA6763B5A8FF52667AE26 /* Pods-AircraftTug.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -103,9 +147,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63B228BA1FB2A9070072797E /* Build configuration list for PBXNativeTarget "AircraftTug" */;
 			buildPhases = (
+				F777AA626A91E21AF7F85149 /* [CP] Check Pods Manifest.lock */,
 				63B228991FB2A9070072797E /* Sources */,
 				63B2289A1FB2A9070072797E /* Frameworks */,
 				63B2289B1FB2A9070072797E /* Resources */,
+				63615AF01FB4140D002A644D /* Embed Frameworks */,
+				0D7FF25C017DB3957BBC2666 /* [CP] Embed Pods Frameworks */,
+				ED02CFCB7094FE03E2D60CBF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -147,6 +195,11 @@
 					63B2289C1FB2A9070072797E = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					63B228B01FB2A9070072797E = {
 						CreatedOnToolsVersion = 9.1;
@@ -194,11 +247,68 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0D7FF25C017DB3957BBC2666 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AircraftTug/Pods-AircraftTug-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BlueCapKit/BlueCapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/CDJoystick/CDJoystick.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BlueCapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDJoystick.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AircraftTug/Pods-AircraftTug-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED02CFCB7094FE03E2D60CBF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AircraftTug/Pods-AircraftTug-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F777AA626A91E21AF7F85149 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AircraftTug-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		63B228991FB2A9070072797E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D20F101FB53EB500EFD193 /* CDJoystick.swift in Sources */,
 				63B228A31FB2A9070072797E /* ViewController.swift in Sources */,
 				63B228A11FB2A9070072797E /* AppDelegate.swift in Sources */,
 			);
@@ -351,7 +461,9 @@
 		};
 		63B228BB1FB2A9070072797E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 565556E46DBC33A2A2BDF329 /* Pods-AircraftTug.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5K6DB9VV2B;
@@ -366,7 +478,9 @@
 		};
 		63B228BC1FB2A9070072797E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 64FFA6763B5A8FF52667AE26 /* Pods-AircraftTug.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5K6DB9VV2B;

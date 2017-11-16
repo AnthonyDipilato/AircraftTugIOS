@@ -1,0 +1,6 @@
+framework module Pods_AircraftTug {
+  umbrella header "Pods-AircraftTug-umbrella.h"
+
+  export *
+  module * { export * }
+}
