@@ -42,6 +42,9 @@ class ViewController: UIViewController
     var joyX: CGFloat!
     var joyR: CGFloat!
     
+    let joyDelay = 0.100
+    var joyLast = CACurrentMediaTime()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -49,10 +52,9 @@ class ViewController: UIViewController
         hornButton.layer.cornerRadius = 4
         // joystick handler
         joystick.trackingHandler = { joystickData in
-            print(joystickData)
-            self.joyY = joystickData.velocity.y
-            self.joyX = joystickData.velocity.x
-            self.joyR = joystickData.angle
+            self.joyY = joystickData.velocity.y * -1
+            self.joyX = joystickData.velocity.x * -1
+            self.joyR = joystickData.angle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             self.updateJoystick()
         }
     }
@@ -101,11 +103,35 @@ class ViewController: UIViewController
             write(command: "2,4")
         }
     }
+    
+
     // Joystick
     func updateJoystick(){
-        var velocity = (joyX * joyX + joyY * joyY).squareRoot()
-        if(velocity > 1) {velocity = 1}
-        //print("x: \(joyX) y: \(joyY) velocity: \(velocity)")
+        // convert to polar
+        let r = hypot(joyX, joyY)
+        var t = atan2(joyY, joyX)
+        // rotate by 45 degrees
+        t = t + (CGFloat.pi / 4)
+        // back to cartesian
+        var left = r * cos(t)
+        var right = r * sin(t)
+        // rescale the new coords
+        left = left * sqrt(2)
+        right = right * sqrt(2)
+        // limit +1/-1
+        if(left < -1){left = -1}
+        if(left > 1){left = 1}
+        if(right > 1){right = 1}
+        if(right < -1){right = -1}
+        // scale to percent
+        left = left * -100 // inverse value
+        right = right * 100
+        // output
+        if(CACurrentMediaTime() > joyLast + joyDelay){
+            write(command: "3,6,\(left)")
+            write(command: "3,5,\(right)")
+            joyLast = CACurrentMediaTime()
+        }
     }
     
     
