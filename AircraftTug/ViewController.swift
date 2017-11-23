@@ -42,7 +42,7 @@ class ViewController: UIViewController
     var joyX: CGFloat!
     var joyR: CGFloat!
     
-    let joyDelay = 0.100
+    let joyDelay = 0.1
     var joyLast = CACurrentMediaTime()
     
     override func viewDidLoad() {
@@ -124,10 +124,11 @@ class ViewController: UIViewController
         if(right > 1){right = 1}
         if(right < -1){right = -1}
         // scale to percent
-        left = left * -100 // inverse value
-        right = right * 100
+        left = round(left * 100)
+        right = round(right * 100)
         // output
         if(CACurrentMediaTime() > joyLast + joyDelay){
+            print("left: \(left) right: \(right)")
             write(command: "3,6,\(left)")
             write(command: "3,5,\(right)")
             joyLast = CACurrentMediaTime()
@@ -302,13 +303,12 @@ class ViewController: UIViewController
     }
     
     func write(command: String){
-        print("write()")
         let output = command + "\n";
         //write a value to the characteristic
         let writeFuture = self.dataCharacteristic?.write(data: output.data(using: .utf8)!, type: .withoutResponse)
         
         writeFuture?.onSuccess(completion: { (_) in
-            print("write success")
+            //print("write success")
         })
         writeFuture?.onFailure(completion: {(e) in
             print("========= write failed =====")
