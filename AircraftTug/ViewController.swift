@@ -11,6 +11,8 @@ import BlueCapKit
 import CoreBluetooth
 import CDJoystick
 
+
+
 class ViewController: UIViewController
 {
     public enum AppError : Error {
@@ -24,6 +26,8 @@ class ViewController: UIViewController
         case unknown
     }
     
+
+    
     // UI Connections
     @IBOutlet weak var roundedCornerButton: UIButton!
     @IBOutlet weak var hornButton: UIButton!
@@ -33,6 +37,9 @@ class ViewController: UIViewController
     @IBOutlet weak var joystick: CDJoystick!
     @IBOutlet weak var connectionStatusLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
+    @IBOutlet weak var versionLabel: UILabel!
+    
+
     
     
     var dataCharacteristic : Characteristic?
@@ -52,8 +59,8 @@ class ViewController: UIViewController
         hornButton.layer.cornerRadius = 4
         // joystick handler
         joystick.trackingHandler = { joystickData in
-            self.joyY = joystickData.velocity.y * -1
-            self.joyX = joystickData.velocity.x * -1
+            self.joyY = joystickData.velocity.y
+            self.joyX = joystickData.velocity.x
             self.joyR = joystickData.angle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             self.updateJoystick()
         }
@@ -123,6 +130,8 @@ class ViewController: UIViewController
         if(left > 1){left = 1}
         if(right > 1){right = 1}
         if(right < -1){right = -1}
+        // inverse right value
+        //right = right * -1
         // scale to percent
         left = round(left * 100)
         right = round(right * 100)
@@ -137,35 +146,56 @@ class ViewController: UIViewController
     
     
     func activate() {
-        let serviceUUID = CBUUID(string:"FFE0")
-        let dataCharacteristicUUID = CBUUID(string:"FFE1")
+        // current version
+        self.versionLabel.text = "0.2"
+        
+        let serviceUUID = CBUUID(string:"FFE0")                 // Service Address
+        let dataCharacteristicUUID = CBUUID(string:"FFE1")      // Data Address
         
         
         // initialize central manager with restore key. The restore allows to reuse the same central manager in the future.
         let manager = CentralManager(options: [CBCentralManagerOptionRestoreIdentifierKey : "CentralManagerKey" as NSString])
         
+        
         // A future stream that notifies us when the state of the central manager changes.
         let stateChangeFuture = manager.whenStateChanges()
+        
+        
+        
+        
         
         // handle state changes and return a scan future if the bluetooth is powered on.
         let scanFuture = stateChangeFuture.flatMap { state -> FutureStream<Peripheral> in
             switch state {
             case .poweredOn:
                 DispatchQueue.main.async {
-                    self.connectionStatusLabel.text = "start scanning"
-                    print(self.connectionStatusLabel.text!)
+                    self.connectionStatusLabel.text = "Searching for Aircraft Tug"
                 }
-                // check if device is already connected
+                // disconnect if already connected
+                // TODO: fix this so recan resume connection instead
+                let devices = manager.retrieveConnectedPeripherals(withServices: [serviceUUID])
+                print("devices")
+                print(devices)
+                if(!devices.isEmpty){
+                    print("===== disconnecting ======")
+                    self.connectionStatusLabel.text = "Reconnecting to Aircraft Tug"
+                    manager.disconnectAllPeripherals()
+                }
                 
-                // scan for peripherals that advertise the FFE0 service
                 return manager.startScanning(forServiceUUIDs: [serviceUUID], capacity: 10)
             case .poweredOff:
+                self.connectionStatusLabel.text = "powering off"
+                print(self.connectionStatusLabel.text!)
                 throw AppError.poweredOff
             case .unauthorized, .unsupported:
                 throw AppError.invalidState
             case .resetting:
+                self.connectionStatusLabel.text = "powering off"
+                print(self.connectionStatusLabel.text!)
                 throw AppError.resetting
             case .unknown:
+                self.connectionStatusLabel.text = "unknown error"
+                print(self.connectionStatusLabel.text!)
                 throw AppError.unknown
             }
         }
@@ -198,7 +228,7 @@ class ViewController: UIViewController
                 throw AppError.unknown
             }
             DispatchQueue.main.async {
-                self.connectionStatusLabel.text = "Found peripheral \(peripheral.identifier.uuidString). Trying to connect"
+                self.connectionStatusLabel.text = "Found Aircraft Tug. Trying to connect."
                 print(self.connectionStatusLabel.text!)
             }
             // connect to the peripheral in order to trigger the connected mode
@@ -220,7 +250,7 @@ class ViewController: UIViewController
                 }
                 self.peripheral = discoveredPeripheral
                 DispatchQueue.main.async {
-                    self.connectionStatusLabel.text = "Discovered service \(service.uuid.uuidString). Trying to discover characteristics"
+                    self.connectionStatusLabel.text = "Connected to Aircraft Tug"
                     print(self.connectionStatusLabel.text!)
                 }
                 // we have discovered the service, the next step is to discover the characteristic for read/write
@@ -240,8 +270,8 @@ class ViewController: UIViewController
             }
             self.dataCharacteristic = dataCharacteristic
             DispatchQueue.main.async {
-                self.connectionStatusLabel.text = "Discovered characteristic \(dataCharacteristic.uuid.uuidString)."
-                print(self.connectionStatusLabel.text!)
+                self.connectionStatusLabel.text = "Connected to Aircraft Tug"
+                print("Discovered characteristic \(dataCharacteristic.uuid.uuidString).")
             }
             // read the data from the characteristic
             self.read()
@@ -272,14 +302,30 @@ class ViewController: UIViewController
         dataFuture.onFailure { error in
             print("===== error ==== ")
             print(error)
+            DispatchQueue.main.async {
+                self.connectionStatusLabel.text = "Error"
+            }
             switch error {
             case PeripheralError.disconnected:
+                DispatchQueue.main.async {
+                    self.connectionStatusLabel.text = "Disconnected"
+                }
                 self.peripheral?.reconnect()
             case AppError.serviceNotFound:
                 break
             case AppError.dataCharactertisticNotFound:
                 break
+            case PeripheralError.connectionTimeout:
+                DispatchQueue.main.async {
+                    self.connectionStatusLabel.text = "Connection timed out"
+                }
+                self.peripheral?.reconnect()
+                break;
             default:
+                DispatchQueue.main.async {
+                    self.connectionStatusLabel.text = "Connection timed out"
+                }
+                self.peripheral?.reconnect()
                 break
             }
         }
