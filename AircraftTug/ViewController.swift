@@ -59,7 +59,7 @@ class ViewController: UIViewController
         hornButton.layer.cornerRadius = 4
         // joystick handler
         joystick.trackingHandler = { joystickData in
-            self.joyY = joystickData.velocity.y
+            self.joyY = joystickData.velocity.y * -1
             self.joyX = joystickData.velocity.x
             self.joyR = joystickData.angle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             self.updateJoystick()
@@ -114,27 +114,37 @@ class ViewController: UIViewController
 
     // Joystick
     func updateJoystick(){
-        // convert to polar
-        let r = hypot(joyX, joyY)
-        var t = atan2(joyY, joyX)
-        // rotate by 45 degrees
-        t = t + (CGFloat.pi / 4)
-        // back to cartesian
-        var left = r * cos(t)
-        var right = r * sin(t)
-        // rescale the new coords
-        left = left * sqrt(2)
-        right = right * sqrt(2)
-        // limit +1/-1
-        if(left < -1){left = -1}
-        if(left > 1){left = 1}
-        if(right > 1){right = 1}
-        if(right < -1){right = -1}
-        // inverse right value
-        //right = right * -1
-        // scale to percent
-        left = round(left * 100)
-        right = round(right * 100)
+        
+        var right = 0
+        var left = 0
+        // find hypotenuse
+        let z = hypot(joyX, joyY)
+        // angle in radians
+        let rad = acos(abs(joyX) / z)
+        let angle = Float(rad * 180) / Float.pi
+        // Now angle indicates the measure of turn
+        // Along a straight line, with an angle o, the turn co-efficient is same
+        // this applies for angles between 0-90, with angle 0 the co-eff is -1
+        // with angle 45, the co-efficient is 0 and with angle 90, it is 1
+        let tcoeff = -1 + (angle / 90) * 2
+        var turn = Float(tcoeff) * Float(abs(abs(joyY) - abs(joyX)))
+        turn = round(turn * 100)
+        // max of y and x is the movement
+        var mov = max(abs(joyY), abs(joyX)) * 100
+        // first and third quadrant
+        if((joyX >= 0 && joyY >= 0) || (joyX < 0 && joyY < 0)){
+            left = Int(mov)
+            right = Int(turn)
+        }
+        else{
+            right = Int(mov)
+            left = Int(turn)
+        }
+        // reverse polarity
+        if(joyY < 0){
+            left = 0 - left
+            right = 0 - right
+        }
         // output
         if(CACurrentMediaTime() > joyLast + joyDelay){
             print("left: \(left) right: \(right)")
