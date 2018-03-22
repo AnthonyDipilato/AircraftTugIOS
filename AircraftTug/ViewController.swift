@@ -145,6 +145,9 @@ class ViewController: UIViewController
             left = 0 - left
             right = 0 - right
         }
+        // Motors a mounted backwards so reverse
+        left = 0 - left
+        right = 0 - right
         // output
         if(CACurrentMediaTime() > joyLast + joyDelay){
             print("left: \(left) right: \(right)")
